@@ -1,43 +1,46 @@
- let listaEspera = [];
-   
- const paciente1 = prompt("Ingrese nombre del paciente: ")
- //funcion para agregar un paciente a la lista de espera
+let listaEspera = []
 
- function agregarPaciente(nombre) {
-     listaEspera.push(nombre);
-     alert("Has sido agregado a la lista de espera.");
- }
+// funcion para agregar pacientes
+function agregarPaciente(){
+    const nombre = prompt('Ingresa el nombre del paciente')
+    listaEspera.push(nombre);
+    console.log('El paciente ha sido agregado')
+}
 
- //funcion para agregar al siguiente paciente
- function atenderSiguiente(){
- if(listaEspera.lengt > 0){
-     const paciente = listaEspera.shift();
-     alert("Atendiendo a $ {paciente}.");
- } else{
-     alert("No hay pacientes en espera.")
- }
- }
-
- //Ciclo
-
- while(true){
-     alert("¿Que accion deseas realizar?")
-     alert("1. Agregar paciente a la lista de espera.");
-     alert("2. Atender al siguiente.")
-     alert("3. Salir.")
-
-     const opcion= prompt("selecciona una opcion: ");
-
-     if(opcion === "1"){
-         const nombre = parseInt(prompt("Ingresar el nombre del paciente: "))
-         agregarPaciente(nombre);
-     } else if (opcion === "2"){
-         atenderSiguiente();
-     } else if (opcion === "3"){
-         alert("Saliendo del simulador.");
-         break;
-        } else{
-         alert("Opción inválida. Por favor, elije una opción válida.")
+//funcion para agregar paciente
+function atenderSiguiente(){
+    if (listaEspera.length > 0){
+        const paciente = listaEspera.shift();
+        console.log('Aguarde su llamado');
+    } else{
+        console.log('No hay pacientes en la lista de espera');
     }
- }
+}
 
+function salir(){
+    console.log('saliendo del simulador');
+}
+
+//ciclo
+while(true){
+    console.log('¿Que accion desea realizar?');
+    console.log('1. Agregar paciente a la lista');
+    console.log('2. Atender paciente');
+    console.log('3. Salir');
+
+    const opcion = prompt('Selecciona una opcion:')
+
+    if (opcion ==='1'){
+        agregarPaciente();
+        alert('Aguarde su llamado');
+    } else if(opcion === '2'){
+        atenderSiguiente();
+        alert('Que pase el que sigue');
+    }else if(opcion === '3'){
+        salir();
+        alert('Adios');
+        break;
+    }else{
+        alert('Opcion invalida')
+    }
+}
