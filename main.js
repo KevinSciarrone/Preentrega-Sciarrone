@@ -1,5 +1,10 @@
 let listaEspera = [];
 
+let Nombre = document.querySelector("#inputNombre");
+let Apellido = document.querySelector("#inputApellido");
+let Edad = document.querySelector("#inputEdad");
+let Dni = document.querySelector("#inputDni");
+
 // funcion para agregar pacientes
 function agregarPaciente() {
   const nombre = prompt("Ingresa el nombre del paciente");
@@ -21,16 +26,6 @@ function atenderSiguiente() {
 function salir() {
   console.log("saliendo del simulador");
 }
-
-//Objeto
-
-//// Este es un ej
-const datosPaciente = {
-  nombre: "Roberto",
-  apellido: "Tedin",
-  edad: 27,
-  dni: 37595154,
-};
 
 //// Este es la funcion con el objeto
 
