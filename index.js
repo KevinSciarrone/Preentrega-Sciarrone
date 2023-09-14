@@ -1,12 +1,10 @@
-let listaEspera = [];
-
 const nombre = document.querySelector("#inputNombre");
 const apellido = document.querySelector("#inputApellido");
 const edad = document.querySelector("#inputEdad");
 const dni = document.querySelector("#inputDni");
 const divListaPacientes = document.querySelector("#listaPacientes");
 const seccionPacientes = document.querySelector("#seccionPacientes");
-const form = document.querySelector("#formRegistro");
+const formRegistro = document.querySelector("#formRegistro");
 
 const pacientes = JSON.parse(localStorage.getItem("pacientes")) || [];
 mostrarPacientes();
@@ -20,33 +18,46 @@ class Paciente {
   }
 }
 
-form.addEventListener("submit", (e) => {
+//evento (submit)
+formRegistro.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  while (true) {
-    const nombre = inputNombre.value;
-    const apellido = inputApellido.value;
-    const edad = inputEdad.value;
-    const dni = inputDni.value;
+  const nombreValue = nombre.value.trim(); // Elimina espacios en blanco al principio y al final
+  const apellidoValue = apellido.value.trim();
+  const edadValue = edad.value.trim();
+  const dniValue = dni.value.trim();
 
-    if (inputNombre.value === inputApellido.value) {
-      // alert('el nombre no puede ser igual al apellido')
-      const texto = document.createElement("p");
-      texto.innerHTML = "el nombre no puede ser igual al apellido";
-    } else if (inputEdad === "" && inputDni === "") {
-      const texto = document.createElement("p");
-      texto.innerHTML = "favor de completar todos los campos";
-    } else {
-      console.log(pacientes);
-      const paciente = new Paciente({ nombre, apellido, edad, dni });
-      guardarPaciente(paciente);
-    }
+  // Verificar si algún campo está vacío
+  if (
+    nombreValue === "" ||
+    apellidoValue === "" ||
+    edadValue === "" ||
+    dniValue === ""
+  ) {
+    alert("Por favor, completa todos los campos.");
+    return;
   }
+
+  // Verificar si el nombre es igual al apellido
+  if (nombreValue === apellidoValue) {
+    alert("El apellido no puede ser igual al nombre.");
+    return;
+  }
+
+  const paciente = new Paciente({
+    nombre: nombreValue,
+    apellido: apellidoValue,
+    edad: edadValue,
+    dni: dniValue,
+  });
+
+  guardarPaciente(paciente);
+  formRegistro.reset();
 });
 
 function guardarPaciente(paciente) {
-  listaEspera.push(paciente);
-  localStorage.setItem("paciente", JSON.stringify(paciente));
+  pacientes.push(paciente);
+  localStorage.setItem("pacientes", JSON.stringify(pacientes));
   mostrarPacientes();
 }
 
@@ -55,12 +66,13 @@ function mostrarPacientes() {
     seccionPacientes.style.display = "block";
     let listaPacientesHtml = "<ul>";
     for (const paciente of pacientes) {
-      listaPacientesHtml += `<li><a onclick="hacerAlgoConPaciente('${paciente.nombre}')">${paciente.nombre}</a></li>`;
+      listaPacientesHtml += `<li><a onclick="hacerAlgoConPaciente('${paciente.Nombre} ${paciente.apellido}')">${paciente.Nombre} ${paciente.apellido}</a></li>`;
     }
-    divListaPacientes.innerHTML = listaEspera + "</ul>";
+    listaPacientesHtml += "</ul>";
+    divListaPacientes.innerHTML = listaPacientesHtml;
   }
 }
 
-function hacerAlgoConpaciente(nombrePaciente) {
+function hacerAlgoConPaciente(nombrePaciente) {
   alert(nombrePaciente);
 }
