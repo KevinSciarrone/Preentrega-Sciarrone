@@ -3,46 +3,78 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
     <title>Consultorio medico</title>
   </head>
   <body>
     <h1>Consultorio medico</h1>
-
-    <form id="formRegistro">
-      <label for="inputNombre"></label
-      ><input
-        id="inputNombre"
-        type="text"
-        placeholder="NOMBRE"
-        autocomplete="off"
-      />
-      <label for="inputApellido"></label
-      ><input
-        id="inputApellido"
-        type="text"
-        placeholder="APELLIDO"
-        autocomplete="off"
-      />
-      <label for="inputEdad"></label
-      ><input
-        id="inputEdad"
-        type="text"
-        placeholder="EDAD"
-        autocomplete="off"
-      />
-      <label for="inputDni"></label
-      ><input
-        id="inputDni"
-        type="text"
-        placeholder="D.N.I."
-        autocomplete="off"
-      />
-      <input type="submit" value="Ingresar" />
-    </form>
+    <div>
+      <form id="formRegistro">
+        <label for="inputNombre"></label
+        ><input
+          id="inputNombre"
+          type="text"
+          placeholder="NOMBRE"
+          autocomplete="off"
+        />
+        <label for="inputApellido"></label
+        ><input
+          id="inputApellido"
+          type="text"
+          placeholder="APELLIDO"
+          autocomplete="off"
+        />
+        <label for="inputEdad"></label
+        ><input
+          id="inputEdad"
+          type="text"
+          placeholder="EDAD"
+          autocomplete="off"
+        />
+        <label for="inputDni"></label
+        ><input
+          id="inputDni"
+          type="text"
+          placeholder="D.N.I."
+          autocomplete="off"
+        />
+        <input type="submit" value="Ingresar" />
+      </form>
+      <button id="btnBuscar">Buscar Pacientes</button>
+      <form id="formBuscar" class="oculto">
+        <label for="inputNombreB"></label
+        ><input
+          id="inputNombreB"
+          type="text"
+          placeholder="NOMBRE"
+          autocomplete="off"
+        />
+        <label for="inputApellidoB"></label
+        ><input
+          id="inputApellidoB"
+          type="text"
+          placeholder="APELLIDO"
+          autocomplete="off"
+        />
+        <label for="inputDniB"></label
+        ><input
+          id="inputDniB"
+          type="text"
+          placeholder="D.N.I."
+          autocomplete="off"
+        />
+        <input type="submit" value="Aceptar" />
+      </form>
+    </div>
     <div id="seccionPacientes" style="display: none">
       <h2>Pacientes</h2>
       <div id="listaPacientes"></div>
     </div>
+    <div id="resultadoBusqueda" style="display: none">
+      <h2>Resultado</h2>
+      <ul id="listaResultados"></ul>
+    </div>
+    <script src=" https://unpkg.com/sweetalert/dist/sweetalert.min.js "></script>
     <script src="index.js"></script>
   </body>
 </html>
