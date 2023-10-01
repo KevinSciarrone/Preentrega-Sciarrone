@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
             botonesAtender.forEach((btn) => {
               btn.addEventListener("click", () => {
                 const paciente = JSON.parse(btn.getAttribute("data-paciente"));
-                const nombreCompleto = `${paciente.Nombre} ${paciente.apellido}`;
+                const nombreCompleto = `${paciente.nombre} ${paciente.apellido}`;
                 console.log(
                   "Botón 'Atender' clickeado para DNI:",
                   nombreCompleto
@@ -171,6 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
       );
   }
 
+  // Evento para atender a un paciente y eliminarlo
   // Evento para atender a un paciente y eliminarlo
   function atenderPaciente(paciente) {
     return new Promise((resolve) => {
@@ -194,22 +195,30 @@ document.addEventListener("DOMContentLoaded", function () {
           pacientes
         );
 
+        // Elimina al paciente atendido del array pacientesJson (archivo JSON)
+        const pacienteAtendidoIndex = pacientesJson.indexOf(pacienteAtendido);
+        if (pacienteAtendidoIndex !== -1) {
+          pacientesJson.splice(pacienteAtendidoIndex, 1);
+          // Actualiza el archivo JSON con la lista actualizada
+          // Aquí debes implementar la lógica para guardar los cambios en el archivo JSON
+        }
+
         // Elimina al paciente atendido del array local que se muestra en la página
-        const pacienteAtendidoIndex = pacientes.findIndex((p) => {
+        const pacienteEnListaIndex = pacientes.findIndex((p) => {
           return (
             `${p.nombre} ${p.apellido}` ===
             `${paciente.nombre} ${paciente.apellido}`
           );
         });
-        if (pacienteAtendidoIndex !== -1) {
-          pacientes.splice(pacienteAtendidoIndex, 1);
+        if (pacienteEnListaIndex !== -1) {
+          pacientes.splice(pacienteEnListaIndex, 1);
           localStorage.setItem("pacientes", JSON.stringify(pacientes));
         }
 
         // Muestra nuevamente la lista de pacientes en la página sin el paciente atendido
         mostrarPacientes();
       } else {
-        console.log("Paciente no encontrado en la lista del archivo .JSON");
+        console.log("Paciente no encontrado en la lista del archivo JSON");
       }
 
       resolve();
