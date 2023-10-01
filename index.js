@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
       );
   }
 
-  // Evento para atender a un paciente y eliminarlo de la lista
+  // Evento para atender a un paciente y eliminarlo
   function atenderPaciente(nombreCompleto) {
     return new Promise((resolve) => {
       console.log("Iniciando atenderPaciente para", nombreCompleto);
@@ -189,11 +189,13 @@ document.addEventListener("DOMContentLoaded", function () {
           setTimeout(() => {
             mostrarPacientes();
             resolve();
-          }, 500); // Simula una operación asíncrona
+          }, 500); 
         }
       } else {
         console.log("paciente no encontrado");
       }
     });
+  }
+}
   }
 });
