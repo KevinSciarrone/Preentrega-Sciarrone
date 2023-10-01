@@ -172,7 +172,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Evento para atender a un paciente y eliminarlo
-  // Evento para atender a un paciente y eliminarlo
   function atenderPaciente(paciente) {
     return new Promise((resolve) => {
       console.log("Iniciando atenderPaciente para", paciente);
@@ -199,10 +198,27 @@ document.addEventListener("DOMContentLoaded", function () {
         const pacienteAtendidoIndex = pacientesJson.indexOf(pacienteAtendido);
         if (pacienteAtendidoIndex !== -1) {
           pacientesJson.splice(pacienteAtendidoIndex, 1);
-          // Actualiza el archivo JSON con la lista actualizada
-          // Aquí debes implementar la lógica para guardar los cambios en el archivo JSON
-        }
 
+          // Actualiza el archivo JSON con la lista actualizada
+          const nombreArchivoJSON = "datos.json";
+
+          fetch(nombreArchivoJSON, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(pacientesJson), // Guarda la lista actualizada
+          })
+            .then(() => {
+              console.log("Cambios guardados en el archivo JSON.");
+            })
+            .catch((error) => {
+              console.error(
+                "Error al guardar los cambios en el archivo JSON:",
+                error
+              );
+            });
+        }
         // Elimina al paciente atendido del array local que se muestra en la página
         const pacienteEnListaIndex = pacientes.findIndex((p) => {
           return (
@@ -214,7 +230,6 @@ document.addEventListener("DOMContentLoaded", function () {
           pacientes.splice(pacienteEnListaIndex, 1);
           localStorage.setItem("pacientes", JSON.stringify(pacientes));
         }
-
         // Muestra nuevamente la lista de pacientes en la página sin el paciente atendido
         mostrarPacientes();
       } else {
