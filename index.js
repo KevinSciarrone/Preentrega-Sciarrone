@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     guardarPaciente(paciente);
     formRegistro.reset();
+    mostrarPacientes();
   });
 
   //evento para mostrar el formulario de busqueda
