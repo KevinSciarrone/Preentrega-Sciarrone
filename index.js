@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const formBuscar = document.getElementById("formBuscar");
 
   const pacientes = JSON.parse(localStorage.getItem("pacientes")) || [];
+  let data;
   mostrarPacientes();
 
   class Paciente {
@@ -119,38 +120,54 @@ document.addEventListener("DOMContentLoaded", function () {
       localStorage.setItem("pacientes", JSON.stringify(pacientes));
       setTimeout(() => {
         mostrarPacientes();
-        resolve;
         resolve();
       }, 500);
     });
   }
 
   function mostrarPacientes() {
-    if (pacientes.length > 0) {
-      seccionPacientes.style.display = "block";
-      let listaPacientesHtml = "<ul>";
-      for (const paciente of pacientes) {
-        listaPacientesHtml += `<li>${paciente.Nombre} ${paciente.apellido}<button class="atenderPaciente">Atender</button></li>`;
-      }
-      listaPacientesHtml += "</ul>";
-      divListaPacientes.innerHTML = listaPacientesHtml;
+    // Limpia la lista de pacientes existente
+    divListaPacientes.innerHTML = "";
 
-      // Agregar evento a los botones "Atender"
-      const botonesAtender = document.querySelectorAll(".atenderPaciente");
-      botonesAtender.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const nombrePaciente = btn.parentNode.textContent.trim();
-          atenderPaciente(nombrePaciente); // Llama a la función para atender al paciente
-        });
-      });
-    }
+    fetch("datos.json")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && Array.isArray(data)) {
+          if (data.length > 0) {
+            seccionPacientes.style.display = "block";
+            let listaPacientesHtml = "<ul>";
+            for (const paciente of data) {
+              listaPacientesHtml += `<li>${paciente.nombre} ${paciente.apellido}<button class="atenderPaciente" data-dni="${paciente.dni}">Atender</button></li>`;
+            }
+            listaPacientesHtml += "</ul>";
+            divListaPacientes.innerHTML = listaPacientesHtml;
+
+            // Agregar evento a los botones "Atender"
+            const botonesAtender =
+              document.querySelectorAll(".atenderPaciente");
+            botonesAtender.forEach((btn) => {
+              btn.addEventListener("click", () => {
+                const dniPaciente = btn.getAttribute("data-dni");
+                atenderPaciente(dniPaciente); // Llama a la función para atender al paciente
+              });
+            });
+          } else {
+            seccionPacientes.style.display = "none";
+          }
+        } else {
+          console.error("El archivo JSON no tiene el formato esperado.");
+        }
+      })
+      .catch((error) =>
+        console.error("Error al cargar el archivo JSON:", error)
+      );
   }
 
   // Evento para atender a un paciente y eliminarlo de la lista
   function atenderPaciente(nombreCompleto) {
     return new Promise((resolve, reject) => {
-      const pacienteAtendido = pacientes.find((paciente) => {
-        return `${paciente.Nombre} ${paciente.apellido}` === nombreCompleto;
+      const pacienteAtendido = data.find((paciente) => {
+        return `${paciente.nombre} ${paciente.apellido}` === nombreCompleto;
       });
       if (pacienteAtendido) {
         const index = pacientes.indexOf(pacienteAtendido);
