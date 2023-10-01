@@ -150,13 +150,12 @@ document.addEventListener("DOMContentLoaded", function () {
               document.querySelectorAll(".atenderPaciente");
             botonesAtender.forEach((btn) => {
               btn.addEventListener("click", () => {
-                const pacienteData = btn.getAttribute("data-paciente");
-                const paciente = JSON.parse(pacienteData);
-                const nombreCompleto = `${paciente.nombre} ${paciente.apellido}`;
+                const paciente = JSON.parse(btn.getAttribute("data-paciente"));
+                const nombreCompleto = `${paciente.Nombre} ${paciente.apellido}`;
                 console.log(
                   "Botón 'Atender' clickeado para DNI:",
                   nombreCompleto
-                ); // Agregar este console.log
+                );
                 atenderPaciente(paciente);
               });
             });
@@ -173,11 +172,14 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Evento para atender a un paciente y eliminarlo
-  function atenderPaciente(nombreCompleto) {
+  function atenderPaciente(paciente) {
     return new Promise((resolve) => {
-      console.log("Iniciando atenderPaciente para", nombreCompleto);
-      const pacienteAtendido = pacientes.find((paciente) => {
-        return `${paciente.nombre} ${paciente.apellido}` === nombreCompleto;
+      console.log("Iniciando atenderPaciente para", paciente);
+      const pacienteAtendido = pacientes.find((p) => {
+        return (
+          `${p.Nombre} ${p.apellido}` ===
+          `${paciente.Nombre} ${paciente.apellido}`
+        );
       });
       if (pacienteAtendido) {
         const index = pacientes.indexOf(pacienteAtendido);
@@ -187,14 +189,15 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log("Eliminando paciente de la lista...");
           pacientes.splice(index, 1);
           localStorage.setItem("pacientes", JSON.stringify(pacientes));
-          setTimeout(() => {
-            mostrarPacientes();
-            resolve();
-          }, 500);
         }
       } else {
         console.log("paciente no encontrado");
       }
+
+      setTimeout(() => {
+        mostrarPacientes();
+        resolve();
+      }, 500);
     });
   }
 });
