@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const formBuscar = document.getElementById("formBuscar");
 
   const pacientes = JSON.parse(localStorage.getItem("pacientes")) || [];
-  mostrarPacientes();
+  let pacientesJson = [];
 
   class Paciente {
     constructor({ nombre, apellido, edad, dni }) {
@@ -24,6 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
       this.dni = dni;
     }
   }
+
+  //oculta la lista paciente
+  seccionPacientes.style.display = "none";
 
   //evento (submit)
   formRegistro.addEventListener("submit", (e) => {
@@ -82,11 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const apellidoBValue = buscarApellido.value.trim();
     const dniBValue = buscarDni.value.trim();
 
-    const nombreValue = nombre.value.trim();
-    const apellidoValue = apellido.value.trim();
-    const edadValue = edad.value.trim();
-    const dniValue = dni.value.trim();
-
     const resultados = pacientes.filter((paciente) => {
       return (
         paciente.apellido
@@ -133,11 +131,17 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         if (data && Array.isArray(data)) {
-          if (data.length > 0) {
+          pacientesJson = data;
+          const pacientesCombinados = [...pacientes, ...pacientesJson];
+
+          if (pacientesCombinados.length > 0) {
             seccionPacientes.style.display = "block";
             let listaPacientesHtml = "<ul>";
-            for (const paciente of data) {
-              listaPacientesHtml += `<li>${paciente.nombre} ${paciente.apellido}<button class="atenderPaciente" data-dni="${paciente.dni}">Atender</button></li>`;
+            // ...
+            for (const paciente of pacientesCombinados) {
+              // Almacena el objeto del paciente completo como atributo data-paciente
+              const pacienteData = JSON.stringify(paciente);
+              listaPacientesHtml += `<li>${paciente.nombre} ${paciente.apellido}<button class="atenderPaciente" data-paciente='${pacienteData}'>Atender</button></li>`;
             }
             listaPacientesHtml += "</ul>";
             divListaPacientes.innerHTML = listaPacientesHtml;
@@ -147,8 +151,9 @@ document.addEventListener("DOMContentLoaded", function () {
               document.querySelectorAll(".atenderPaciente");
             botonesAtender.forEach((btn) => {
               btn.addEventListener("click", () => {
-                const dniPaciente = btn.getAttribute("data-dni");
-                atenderPaciente(dniPaciente); // Llama a la función para atender al paciente
+                const pacienteData = btn.getAttribute("data-paciente");
+                const paciente = JSON.parse(pacienteData);
+                atenderPaciente(paciente);
               });
             });
           } else {
