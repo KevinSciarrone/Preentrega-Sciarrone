@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const formBuscar = document.getElementById("formBuscar");
 
   const pacientes = JSON.parse(localStorage.getItem("pacientes")) || [];
-  let data;
   mostrarPacientes();
 
   class Paciente {
@@ -115,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   function guardarPaciente(paciente) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       pacientes.push(paciente);
       localStorage.setItem("pacientes", JSON.stringify(pacientes));
       setTimeout(() => {
@@ -128,10 +127,8 @@ document.addEventListener("DOMContentLoaded", function () {
   function mostrarPacientes() {
     // Limpia la lista de pacientes existente
     divListaPacientes.innerHTML = "";
-
-    fetch(
-      "https://raw.githubusercontent.com/KevinSciarrone/Preentrega-Sciarrone/master/datos.json"
-    )
+    const link = "datos.json";
+    fetch(link)
       .then((response) => response.json())
       .then((data) => {
         if (data && Array.isArray(data)) {
