@@ -151,8 +151,8 @@ document.addEventListener("DOMContentLoaded", function () {
             botonesAtender.forEach((btn) => {
               btn.addEventListener("click", () => {
                 const pacienteData = btn.getAttribute("data-paciente");
-                const paciente = JSON.parse(pacienteData)
-                const nombreCompleto = `${paciente.nombre} ${paciente.apellido}`
+                const paciente = JSON.parse(pacienteData);
+                const nombreCompleto = `${paciente.nombre} ${paciente.apellido}`;
                 console.log(
                   "Botón 'Atender' clickeado para DNI:",
                   nombreCompleto
@@ -190,13 +190,11 @@ document.addEventListener("DOMContentLoaded", function () {
           setTimeout(() => {
             mostrarPacientes();
             resolve();
-          }, 500); 
+          }, 500);
         }
       } else {
         console.log("paciente no encontrado");
       }
     });
-  }
-}
   }
 });
