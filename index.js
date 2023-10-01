@@ -165,12 +165,15 @@ document.addEventListener("DOMContentLoaded", function () {
   // Evento para atender a un paciente y eliminarlo de la lista
   function atenderPaciente(nombreCompleto) {
     return new Promise((resolve) => {
+      console.log("Iniciando atenderPaciente para", nombreCompleto);
       const pacienteAtendido = pacientes.find((paciente) => {
         return `${paciente.Nombre} ${paciente.apellido}` === nombreCompleto;
       });
       if (pacienteAtendido) {
         const index = pacientes.indexOf(pacienteAtendido);
+        console.log("Paciente encontrado:", pacienteAtendido);
         if (index !== -1) {
+          console.log("Eliminando paciente de la lista...");
           pacientes.splice(index, 1);
           localStorage.setItem("pacientes", JSON.stringify(pacientes));
           setTimeout(() => {
