@@ -175,29 +175,44 @@ document.addEventListener("DOMContentLoaded", function () {
   function atenderPaciente(paciente) {
     return new Promise((resolve) => {
       console.log("Iniciando atenderPaciente para", paciente);
-      const pacienteAtendido = pacientes.find((p) => {
+
+      // Busca al paciente en el array original pacientesJson
+      const pacienteAtendido = pacientesJson.find((p) => {
         return (
-          `${p.Nombre} ${p.apellido}` ===
-          `${paciente.Nombre} ${paciente.apellido}`
+          `${p.nombre} ${p.apellido}` ===
+          `${paciente.nombre} ${paciente.apellido}`
         );
       });
+
       if (pacienteAtendido) {
-        const index = pacientes.indexOf(pacienteAtendido);
-        console.log("Paciente encontrado:", pacienteAtendido);
-        console.log("Pacientes antes de eliminar:", pacientes);
-        if (index !== -1) {
-          console.log("Eliminando paciente de la lista...");
-          pacientes.splice(index, 1);
+        console.log(
+          "Paciente encontrado en la lista del archivo JSON:",
+          pacienteAtendido
+        );
+        console.log(
+          "Pacientes antes de eliminar de la lista en la página:",
+          pacientes
+        );
+
+        // Elimina al paciente atendido del array local que se muestra en la página
+        const pacienteAtendidoIndex = pacientes.findIndex((p) => {
+          return (
+            `${p.nombre} ${p.apellido}` ===
+            `${paciente.nombre} ${paciente.apellido}`
+          );
+        });
+        if (pacienteAtendidoIndex !== -1) {
+          pacientes.splice(pacienteAtendidoIndex, 1);
           localStorage.setItem("pacientes", JSON.stringify(pacientes));
         }
+
+        // Muestra nuevamente la lista de pacientes en la página sin el paciente atendido
+        mostrarPacientes();
       } else {
-        console.log("paciente no encontrado");
+        console.log("Paciente no encontrado en la lista del archivo JSON");
       }
 
-      setTimeout(() => {
-        mostrarPacientes();
-        resolve();
-      }, 500);
+      resolve();
     });
   }
 });
