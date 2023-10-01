@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   class Paciente {
     constructor({ nombre, apellido, edad, dni }) {
-      this.Nombre = nombre;
+      this.nombre = nombre;
       this.apellido = apellido;
       this.edad = edad;
       this.dni = dni;
