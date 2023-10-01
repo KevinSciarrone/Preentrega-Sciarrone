@@ -173,51 +173,43 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Evento para atender a un paciente y eliminarlo
+
   function atenderPaciente(paciente) {
     return new Promise((resolve) => {
       console.log("Iniciando atenderPaciente para", paciente);
 
-      // Busca al paciente en el array original pacientesJson
-      const pacienteAtendido = pacientesJson.find((p) => {
+      // Busca al paciente en la lista local pacientes
+      const pacienteEnListaIndex = pacientes.findIndex((p) => {
         return (
           `${p.nombre} ${p.apellido}` ===
           `${paciente.nombre} ${paciente.apellido}`
         );
       });
 
-      if (pacienteAtendido) {
-        console.log(
-          "Paciente encontrado en la lista del archivo JSON:",
-          pacienteAtendido
+      if (pacienteEnListaIndex !== -1) {
+        // Elimina al paciente atendido de la lista local pacientes
+        pacientes.splice(pacienteEnListaIndex, 1);
+        localStorage.setItem("pacientes", JSON.stringify(pacientes));
+        // Muestra nuevamente la lista de pacientes en la página sin el paciente atendido
+        mostrarPacientes();
+      } else {
+        console.log("Paciente no encontrado en la lista local.");
+      }
+
+      // Busca al paciente en la lista de pacientesJson (archivo JSON)
+      const pacienteEnJsonIndex = pacientesJson.findIndex((p) => {
+        return (
+          `${p.nombre} ${p.apellido}` ===
+          `${paciente.nombre} ${paciente.apellido}`
         );
-        console.log(
-          "Pacientes antes de eliminar de la lista en la página:",
-          pacientes
-        );
+      });
 
-        // Elimina al paciente atendido del array pacientesJson (archivo JSON)
-        const pacienteAtendidoIndex = pacientesJson.indexOf(pacienteAtendido);
-        if (pacienteAtendidoIndex !== -1) {
-          pacientesJson.splice(pacienteAtendidoIndex, 1);
-          // No es necesario realizar una solicitud al servidor aquí
-
-          // Elimina al paciente atendido del array local que se muestra en la página
-          const pacienteEnListaIndex = pacientes.findIndex((p) => {
-            return (
-              `${p.nombre} ${p.apellido}` ===
-              `${paciente.nombre} ${paciente.apellido}`
-            );
-          });
-          if (pacienteEnListaIndex !== -1) {
-            pacientes.splice(pacienteEnListaIndex, 1);
-            localStorage.setItem("pacientes", JSON.stringify(pacientes));
-          }
-
-          // Muestra nuevamente la lista de pacientes en la página sin el paciente atendido
-          mostrarPacientes();
-        } else {
-          console.log("Paciente no encontrado en la lista del archivo JSON");
-        }
+      if (pacienteEnJsonIndex !== -1) {
+        // Elimina al paciente atendido de la lista pacientesJson (archivo JSON)
+        pacientesJson.splice(pacienteEnJsonIndex, 1);
+        // También puedes enviar una solicitud para actualizar el archivo JSON aquí
+      } else {
+        console.log("Paciente no encontrado en la lista del archivo JSON.");
       }
 
       resolve();
