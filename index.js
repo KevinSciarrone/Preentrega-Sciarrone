@@ -122,10 +122,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  const link = "datos.json";
+
   function mostrarPacientes() {
     // Limpia la lista de pacientes existente
     divListaPacientes.innerHTML = "";
-    const link = "datos.json";
     fetch(link)
       .then((response) => response.json())
       .then((data) => {
@@ -198,42 +199,25 @@ document.addEventListener("DOMContentLoaded", function () {
         const pacienteAtendidoIndex = pacientesJson.indexOf(pacienteAtendido);
         if (pacienteAtendidoIndex !== -1) {
           pacientesJson.splice(pacienteAtendidoIndex, 1);
+          // No es necesario realizar una solicitud al servidor aquí
 
-          // Actualiza el archivo JSON con la lista actualizada
-          const nombreArchivoJSON = "datos.json";
+          // Elimina al paciente atendido del array local que se muestra en la página
+          const pacienteEnListaIndex = pacientes.findIndex((p) => {
+            return (
+              `${p.nombre} ${p.apellido}` ===
+              `${paciente.nombre} ${paciente.apellido}`
+            );
+          });
+          if (pacienteEnListaIndex !== -1) {
+            pacientes.splice(pacienteEnListaIndex, 1);
+            localStorage.setItem("pacientes", JSON.stringify(pacientes));
+          }
 
-          fetch(nombreArchivoJSON, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(pacientesJson), // Guarda la lista actualizada
-          })
-            .then(() => {
-              console.log("Cambios guardados en el archivo JSON.");
-            })
-            .catch((error) => {
-              console.error(
-                "Error al guardar los cambios en el archivo JSON:",
-                error
-              );
-            });
+          // Muestra nuevamente la lista de pacientes en la página sin el paciente atendido
+          mostrarPacientes();
+        } else {
+          console.log("Paciente no encontrado en la lista del archivo JSON");
         }
-        // Elimina al paciente atendido del array local que se muestra en la página
-        const pacienteEnListaIndex = pacientes.findIndex((p) => {
-          return (
-            `${p.nombre} ${p.apellido}` ===
-            `${paciente.nombre} ${paciente.apellido}`
-          );
-        });
-        if (pacienteEnListaIndex !== -1) {
-          pacientes.splice(pacienteEnListaIndex, 1);
-          localStorage.setItem("pacientes", JSON.stringify(pacientes));
-        }
-        // Muestra nuevamente la lista de pacientes en la página sin el paciente atendido
-        mostrarPacientes();
-      } else {
-        console.log("Paciente no encontrado en la lista del archivo JSON");
       }
 
       resolve();
