@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Evento para atender a un paciente y eliminarlo de la lista
   function atenderPaciente(nombreCompleto) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const pacienteAtendido = pacientes.find((paciente) => {
         return `${paciente.Nombre} ${paciente.apellido}` === nombreCompleto;
       });
@@ -178,6 +178,8 @@ document.addEventListener("DOMContentLoaded", function () {
             resolve();
           }, 500); // Simula una operación asíncrona
         }
+      } else {
+        console.log("paciente no encontrado");
       }
     });
   }
