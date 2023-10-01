@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const seccionPacientes = document.querySelector("#seccionPacientes");
   const formRegistro = document.querySelector("#formRegistro");
 
-  const buscarNombre = document.querySelector("#inputNombreB");
   const buscarApellido = document.querySelector("#inputApellidoB");
   const buscarDni = document.querySelector("#inputDniB");
   const btnBuscar = document.getElementById("btnBuscar");
@@ -103,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
       seccionPacientes.style.display = "none";
       for (const resultado of resultados) {
         const liResultado = document.createElement("li");
-        liResultado.textContent = `${resultado.Nombre} ${resultado.apellido}`;
+        liResultado.textContent = `${resultado.nombre} ${resultado.apellido}`;
         listaResultados.appendChild(liResultado);
       }
     } else {
@@ -173,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return new Promise((resolve) => {
       console.log("Iniciando atenderPaciente para", nombreCompleto);
       const pacienteAtendido = pacientes.find((paciente) => {
-        return `${paciente.Nombre} ${paciente.apellido}` === nombreCompleto;
+        return `${paciente.nombre} ${paciente.apellido}` === nombreCompleto;
       });
       if (pacienteAtendido) {
         const index = pacientes.indexOf(pacienteAtendido);
