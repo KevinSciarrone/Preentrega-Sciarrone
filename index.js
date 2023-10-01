@@ -151,11 +151,12 @@ document.addEventListener("DOMContentLoaded", function () {
             botonesAtender.forEach((btn) => {
               btn.addEventListener("click", () => {
                 const pacienteData = btn.getAttribute("data-paciente");
+                const paciente = JSON.parse(pacienteData)
+                const nombreCompleto = `${paciente.nombre} ${paciente.apellido}`
                 console.log(
                   "Botón 'Atender' clickeado para DNI:",
                   nombreCompleto
                 ); // Agregar este console.log
-                const paciente = JSON.parse(pacienteData);
                 atenderPaciente(paciente);
               });
             });
