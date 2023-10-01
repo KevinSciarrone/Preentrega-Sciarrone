@@ -151,6 +151,10 @@ document.addEventListener("DOMContentLoaded", function () {
             botonesAtender.forEach((btn) => {
               btn.addEventListener("click", () => {
                 const pacienteData = btn.getAttribute("data-paciente");
+                console.log(
+                  "Botón 'Atender' clickeado para DNI:",
+                  nombreCompleto
+                ); // Agregar este console.log
                 const paciente = JSON.parse(pacienteData);
                 atenderPaciente(paciente);
               });
@@ -177,6 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (pacienteAtendido) {
         const index = pacientes.indexOf(pacienteAtendido);
         console.log("Paciente encontrado:", pacienteAtendido);
+        console.log("Pacientes antes de eliminar:", pacientes);
         if (index !== -1) {
           console.log("Eliminando paciente de la lista...");
           pacientes.splice(index, 1);
