@@ -129,7 +129,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Limpia la lista de pacientes existente
     divListaPacientes.innerHTML = "";
 
-    fetch("datos.json")
+    fetch(
+      "https://raw.githubusercontent.com/KevinSciarrone/Preentrega-Sciarrone/master/datos.json"
+    )
       .then((response) => response.json())
       .then((data) => {
         if (data && Array.isArray(data)) {
@@ -166,8 +168,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Evento para atender a un paciente y eliminarlo de la lista
   function atenderPaciente(nombreCompleto) {
     return new Promise((resolve, reject) => {
-      const pacienteAtendido = data.find((paciente) => {
-        return `${paciente.nombre} ${paciente.apellido}` === nombreCompleto;
+      const pacienteAtendido = pacientes.find((paciente) => {
+        return `${paciente.Nombre} ${paciente.apellido}` === nombreCompleto;
       });
       if (pacienteAtendido) {
         const index = pacientes.indexOf(pacienteAtendido);
