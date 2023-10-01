@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Muestra nuevamente la lista de pacientes en la página sin el paciente atendido
         mostrarPacientes();
       } else {
-        console.log("Paciente no encontrado en la lista del archivo JSON");
+        console.log("Paciente no encontrado en la lista del archivo .JSON");
       }
 
       resolve();
